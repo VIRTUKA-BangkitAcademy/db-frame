@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Data Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container mt-4">
+        <h2>Add New Frame</h2>
+        <form id="addFrameForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="image">Image:</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <label for="linkBuy">Link to Buy:</label>
+                <input type="text" class="form-control" id="linkBuy" name="linkBuy" required>
+            </div>
+            <div class="form-group">
+                <label for="face">Face Shape:</label>
+                <select class="form-control" id="face" name="face">
+                    <option value="Diamond">Diamond</option>
+                    <option value="Oblong">Oblong</option>
+                    <option value="Oval">Oval</option>
+                    <option value="Round">Round</option>
+                    <option value="Square">Square</option>
+                    <option value="Triangle">Triangle</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select class="form-control" id="gender" name="gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="addFrame()">Add Frame</button>
+        </form>
+
+        <!-- Alert for success notification -->
+        <div class="alert alert-success mt-3" role="alert" id="successAlert" style="display:none;">
+            Frame added successfully! Reloading the page...
+        </div>
+    </div>
+    <script src="js/create.js"></script>
+
+
+    <!-- Include Bootstrap JavaScript dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
