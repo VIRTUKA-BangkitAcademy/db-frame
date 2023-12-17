@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Analysis with Webcam</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'ABeeZee', sans-serif;
+        }
+
+        /* Add your custom styles here */
+        .loading {
+            display: none;
+        }
+    </style>
+    <style>
+        #video {
+            width: 100%;
+            max-width: 640px;
+        }
+
+        .loading {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <h2>Face Analysis with Webcam</h2>
+        <video id="video" playsinline autoplay></video>
+        <br>
+        <div class="form-group">
+            <label for="gender">Gender:</label>
+            <select class="form-control" id="gender" name="gender">
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="captureAndSend()">Capture and Send</button>
+        <div id="loading" class="loading mt-3">Loading...</div>
+        <div id="result" class="mt-4"></div>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const loadingDiv = document.getElementById('loading');
+
+        async function initWebcam() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (error) {
+                console.error('Error accessing webcam:', error);
+            }
+        }
+
+        initWebcam();
+
+        function captureAndSend() {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const dataUrl = canvas.toDataURL('image/png');
+            const gender = document.getElementById('gender').value;
+
+            // Show loading indicator
+            loadingDiv.style.display = 'block';
+
+            // Convert data URL to Blob
+            fetch(dataUrl)
+                .then(res => res.blob())
+                .then(blob => {
+                    // Create a File from Blob
+                    const file = new File([blob], 'capturedImage.png');
+
+                    // Create FormData and append file and gender
+                    const formData = new FormData();
+                    formData.append('image', file);
+                    formData.append('gender', gender);
+
+                    // Send FormData to server
+                    fetch('https://capst.glng.my.id/faceanalize', {
+                        method: 'POST',
+                        body: formData,
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Hide loading indicator
+                            loadingDiv.style.display = 'none';
+
+                            // Handle server response
+                            displayResult(data);
+                        })
+                        .catch(error => {
+                            // Hide loading indicator
+                            loadingDiv.style.display = 'none';
+
+                            // Handle error
+                            console.error('Error sending image to server:', error);
+                        });
+                })
+                .catch(error => {
+                    // Hide loading indicator
+                    loadingDiv.style.display = 'none';
+
+                    // Handle error
+                    console.error('Error creating blob from data URL:', error);
+                });
+        }
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<p>${data.message}</p>`;
+
+            if (data.data && data.data.length > 0) {
+                // Display each frame data
+                data.data.forEach(frame => {
+                    const imageUrl = `https://capst.glng.my.id/${frame.image}`;
+                    resultDiv.innerHTML += `
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <p class="card-text">ID: ${frame.id}</p>
+                        <p class="card-text">Name: ${frame.name}</p>
+                        <p class="card-text">Description: ${frame.description}</p>
+                        <p class="card-text">Gender: ${frame.gender}</p>
+                        <p class="card-text">Face: ${frame.face}</p>
+                        <img src="${imageUrl}" alt="Frame Image" class="img-fluid" style="max-width: 100px;">
+                    </div>
+                </div>
+            `;
+                });
+            } else if (data.result) {
+                // Display the face type if frame is not found
+                resultDiv.innerHTML += `<p>Face: ${data.result}</p>`;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

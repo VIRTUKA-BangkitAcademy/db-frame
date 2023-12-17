@@ -7,6 +7,14 @@
     <title>Update Frame</title>
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'ABeeZee', sans-serif;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,8 +30,7 @@
         <form id="updateForm">
             <div class="form-group">
                 <label for="updateName">Name:</label>
-                <p class="text-danger">maksimal 500 karakter</p>
-                <input type="text" class="form-control" id="updateName" name="name" required>
+                <input maxlength="500" type="text" class="form-control" id="updateName" name="name" required>
             </div>
             <!-- Add this inside your update form -->
             <div class="form-group">
@@ -37,8 +44,7 @@
             </div>
             <div class="form-group">
                 <label for="updateLinkBuy">Link Buy:</label>
-                <p class="text-danger">maksimal 2000 karakter</p>
-                <input type="text" class="form-control" id="updateLinkBuy" name="linkBuy">
+                <input maxlength="2000" type="text" class="form-control" id="updateLinkBuy" name="linkBuy">
             </div>
             <div class="form-group">
                 <label for="updateFace">Face:</label>
@@ -60,7 +66,6 @@
             </div>
             <div class="form-group">
                 <label for="updateDescription">Description:</label>
-                <p class="text-danger">maksimal 5000 karakter</p>
 
                 <textarea maxlength="5000" rows="10" class="form-control" id="updateDescription"
                     name="description"></textarea>
