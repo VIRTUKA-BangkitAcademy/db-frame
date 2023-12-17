@@ -16,6 +16,7 @@
         <form id="addFrameForm" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Name:</label>
+                <p class="text-danger">maksimal 500 karakter</p>
                 <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="form-group">
@@ -24,6 +25,7 @@
             </div>
             <div class="form-group">
                 <label for="linkBuy">Link to Buy:</label>
+                <p class="text-danger">maksimal 2000 karakter</p>
                 <input type="text" class="form-control" id="linkBuy" name="linkBuy" required>
             </div>
             <div class="form-group">
@@ -46,7 +48,9 @@
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                <p class="text-danger">maksimal 5000 karakter</p>
+                <textarea maxlength="5000" class="form-control" id="description" name="description" rows="10"
+                    required></textarea>
             </div>
 
             <!-- Loading Spinner -->
