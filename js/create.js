@@ -1,4 +1,10 @@
 function addFrame() {
+  // Hide any existing alerts
+  $("#successAlert, #errorAlert").hide();
+
+  // Show loading spinner
+  $("#loadingSpinner").show();
+
   var formData = new FormData($("#addFrameForm")[0]);
 
   $.ajax({
@@ -8,9 +14,11 @@ function addFrame() {
     contentType: false,
     processData: false,
     success: function (data) {
+      // Hide loading spinner on success
+      $("#loadingSpinner").hide();
+
       // Show success alert
       $("#successAlert").show();
-      alert("sukses");
 
       // Reload the page after a short delay
       setTimeout(function () {
@@ -18,8 +26,12 @@ function addFrame() {
       }, 2000);
     },
     error: function (error) {
+      // Hide loading spinner on error
+      $("#loadingSpinner").hide();
+
+      // Show error alert
+      $("#errorAlert").show();
       console.error("Error adding frame:", error);
-      alert("error, periksa kembali data yang dimasukkan");
     },
   });
 }

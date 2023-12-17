@@ -55,6 +55,7 @@ $(document).ready(function () {
     console.error("Frame ID not provided.");
   }
 });
+
 // Function to update a frame
 function updateFrame() {
   var frameId = getParameterByName("id");
@@ -73,6 +74,9 @@ function updateFrame() {
     updateData.append("image", imageInput.files[0]);
   }
 
+  // Display loading message
+  $("#loadingMessage").show();
+
   // Replace 'https://capst.glng.my.id/api/frames/' with your actual API endpoint for updating a frame by ID
   $.ajax({
     url: "https://capst.glng.my.id/api/frames/" + frameId,
@@ -81,11 +85,19 @@ function updateFrame() {
     processData: false, // Set to false when using FormData
     data: updateData,
     success: function () {
+      // Hide loading message on success
+      $("#loadingMessage").hide();
+
+      // Show success message
       alert("Frame updated successfully!");
+
       // Redirect to the main page after updating
       window.location.href = "index.html";
     },
     error: function (error) {
+      // Hide loading message on error
+      $("#loadingMessage").hide();
+
       console.error("Error updating frame:", error);
     },
   });

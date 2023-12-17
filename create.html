@@ -48,14 +48,28 @@
                 <label for="description">Description:</label>
                 <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
             </div>
+
+            <!-- Loading Spinner -->
+            <div class="spinner-border text-primary" role="status" id="loadingSpinner" style="display: none;">
+                <span class="sr-only">Loading...</span>
+            </div>
+
+            <!-- Alert for success notification -->
+            <div class="alert alert-success mt-3" role="alert" id="successAlert" style="display: none;">
+                Frame added successfully! Reloading the page...
+            </div>
+
+            <!-- Alert for error notification -->
+            <div class="alert alert-danger mt-3" role="alert" id="errorAlert" style="display: none;">
+                Error adding frame. Please check the entered data.
+            </div>
+
             <button type="button" class="btn btn-primary" onclick="addFrame()">Add Frame</button>
         </form>
 
-        <!-- Alert for success notification -->
-        <div class="alert alert-success mt-3" role="alert" id="successAlert" style="display:none;">
-            Frame added successfully! Reloading the page...
-        </div>
+        <a href="index.html" class="btn btn-danger mt-3"> Back </a>
     </div>
+
     <script src="js/create.js"></script>
 
 

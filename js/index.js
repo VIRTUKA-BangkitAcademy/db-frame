@@ -1,4 +1,4 @@
-var itemsPerPage = 5; // Adjust the number of items per page as needed
+var itemsPerPage = 10; // Adjust the number of items per page as needed
 var currentPage = 1;
 
 // Function to fetch and display API data in a table
