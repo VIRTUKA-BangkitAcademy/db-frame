@@ -18,6 +18,7 @@
 <body>
 
     <div class="container mt-5">
+
         <h2>Face Analysis</h2>
 
         <!-- Form Input -->
@@ -36,6 +37,7 @@
             </div>
 
             <button type="button" class="btn btn-primary" onclick="analyzeFace()">Analyze Face</button>
+            <a class="btn btn-danger" href="index.html">Back</a>
         </form>
 
         <!-- Loading Indicator -->
@@ -64,7 +66,7 @@
             // Show loading indicator
             document.getElementById('loading').style.display = 'block';
 
-            // Replace 'https://capst.glng.my.id/faceanalize' with your actual API endpoint
+            // API endpoint
             fetch('https://capst.glng.my.id/faceanalize', {
                 method: 'POST',
                 body: formData
