@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Analysis</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Add your custom styles here */
+        .loading {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <h2>Face Analysis</h2>
+
+        <!-- Form Input -->
+        <form id="faceAnalysisForm">
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select class="form-control" id="gender" name="gender">
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Image:</label>
+                <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="analyzeFace()">Analyze Face</button>
+        </form>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading mt-3">Loading...</div>
+
+        <!-- Result Display -->
+        <div id="result" class="mt-4"></div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery (Make sure to include jQuery before Bootstrap JS) -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to send request to the server
+        function analyzeFace() {
+            // Reset result and hide loading
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('loading').style.display = 'none';
+
+            // Get form data
+            const form = document.getElementById('faceAnalysisForm');
+            const formData = new FormData(form);
+
+            // Show loading indicator
+            document.getElementById('loading').style.display = 'block';
+
+            // Replace 'https://capst.glng.my.id/faceanalize' with your actual API endpoint
+            fetch('https://capst.glng.my.id/faceanalize', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading indicator
+                    document.getElementById('loading').style.display = 'none';
+
+                    // Display result
+                    displayResult(data);
+                })
+                .catch(error => {
+                    // Hide loading indicator
+                    document.getElementById('loading').style.display = 'none';
+
+                    // Display error
+                    displayError(error.message);
+                });
+        }
+
+        // Function to display the result
+        // Function to display the result
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<p>${data.message}</p>`;
+
+            if (data.data && data.data.length > 0) {
+                // Display each frame data
+                data.data.forEach(frame => {
+                    const imageUrl = `https://capst.glng.my.id/${frame.image}`;
+                    resultDiv.innerHTML += `
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <p class="card-text">ID: ${frame.id}</p>
+                        <p class="card-text">Name: ${frame.name}</p>
+                        <p class="card-text">Description: ${frame.description}</p>
+                        <p class="card-text">Gender: ${frame.gender}</p>
+                        <p class="card-text">Face: ${frame.face}</p>
+                        <img src="${imageUrl}" alt="Frame Image" class="img-fluid" style="max-width: 100px;">
+                    </div>
+                </div>
+            `;
+                });
+            } else if (data.result) {
+                // Display the face type if frame is not found
+                resultDiv.innerHTML += `<p>Face: ${data.result}</p>`;
+            }
+        }
+
+        // Function to display an error
+        function displayError(errorMessage) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<p style="color: red;">Error: ${errorMessage}</p>`;
+        }
+    </script>
+
+</body>
+
+</html>
