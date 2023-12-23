@@ -31,7 +31,7 @@ function displayData(data) {
     output += "<tr>";
     output += "<td>" + frame.name + "</td>";
     output +=
-      '<td><img src="https://capst.glng.my.id/' +
+      '<td><img src="' +
       frame.image +
       '" alt="Frame Image" style="max-width: 100px;"></td>';
     output += "<td>" + frame.gender + "</td>";

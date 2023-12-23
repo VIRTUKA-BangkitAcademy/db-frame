@@ -20,7 +20,7 @@ function fetchFrameDetails(frameId) {
         $("#updateDescription").val(data.frame.description);
 
         // Display the image using the fetched path
-        var imagePath = "https://capst.glng.my.id/" + data.frame.image;
+        var imagePath = data.frame.image;
         $("#frameImage").attr("src", imagePath);
 
         // Ensure that the file input value is not cached
